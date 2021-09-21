@@ -1,0 +1,304 @@
+---
+title: "STA303 Assignment 1"
+author: "Jin Long Cao"
+date: "7/24/2021"
+output: pdf_document
+---
+## Question 1
+Given $(y_1, y_2, \cdot\cdot\cdot, y_k)$ ~ Multinomial$(n, \pi_1, \pi_2,\cdot\cdot\cdot, \pi_k).\\$
+The multinomial p.m.f. is $P(y_1, y_2, ..., y_k) = \frac{n!\pi_1^{y_1}\pi_2^{y_2}\cdot\cdot\cdot\pi_k^{y_k}}{y_1!y_2!\cdot\cdot\cdot y_k!}$
+
+# a)
+\begin{align*}
+M_y(t_1, t_2, \cdot \cdot \cdot, t_k) &= E(e^{y_1t_1+y_2t_2+ \cdot\cdot\cdot + y_kt_k})\\
+&= \sum_{y_1} \sum_{y_2} \cdot\cdot\cdot \sum_{y_k} e^{y_1t_1+y_2t_2+\cdot\cdot\cdot+y_kt_k} \frac{n!\pi_1^{y_1}\pi_2^{y_2}\cdot\cdot\cdot\pi_k^{y_k}}{y_1!y_2!\cdot\cdot\cdot y_k!}\\
+&= \sum_{y_1} \sum_{y_2} \cdot\cdot\cdot \sum_{y_k}  \frac{n!(\pi_1 e^{t_1})^{y_1}(\pi_2e^{t_2})^{y_2}\cdot\cdot\cdot(\pi_ke^{t_k})^{y_k}}{y_1!y_2!\cdot\cdot\cdot y_k!} \\
+&= (\pi_1e^{t_1} + \pi_2e^{t_2} + \cdot\cdot\cdot + \pi_ke^{t_k})^n
+\end{align*}
+Therefore the moment-generating function (mgf) is $M_y(t) = (\pi_1e^{t_1} + \pi_2e^{t_2} + \cdot\cdot\cdot + \pi_ke^{t_k})^n = (\sum_{i=1}^{k} \pi_i e^{t_i})^n$
+
+# b)
+The moment generating function of $y_j$ can be calculated by setting all other variable equal to zero such that
+\begin{align*}
+M_y(0, 0, \cdot\cdot\cdot, t_j, \cdot\cdot\cdot, 0) &= (\pi_1e^{0} + \pi_2e^{0} + \cdot\cdot\cdot + \pi_je^{t_j} + \cdot\cdot\cdot + \pi_ke^{0})^n\\
+&= ((1-\pi_j)+ \pi_je^{t_j})^n \qquad \text{(Since $\sum_{i=1}^{k} \pi_i = 1$)}\\
+\end{align*}
+
+# i)
+\begin{align*}
+E(y_j) &= [\frac{\partial}{\partial t_j}M_{y_j}(t_j)]_{t_j=0}\\
+&= [n((1-\pi_j)+\pi_je^{t_j})^{n-1}\pi_je^{t_j}]_{t_j=0}\\
+&= [n((1-\pi_j)+\pi_j)^{n-1}\pi_j]\\
+E(y_j) &= n\pi_j
+\end{align*}
+
+# ii)
+Similarly,
+\begin{align*}
+E(y_j^2) &= [\frac{\partial^2}{\partial^2 t_j}M_{y_i}(t_j)]_{t_j=0}\\
+&= [\frac{\partial}{\partial t_j}n((1-\pi_j)+\pi_je^{t_j})^{n-1}\pi_je^{t_j}]_{t_j=0}\\
+&= n\pi_j[(n-1)((1-\pi_j)+\pi_je^{t_j})^{n-2}\pi_je^{2t_j}+ ((1-\pi_j)+\pi_je^{t_j})^{n-1}e^{t_j}]_{t_j=0}\\
+&= n\pi_j[(n-1)\pi_j+1]\\
+E(y_j^2) &= n^2\pi_j^2 - n\pi_j^2 + n\pi_j
+\end{align*}
+Hence, var($y_j$) = $E(y_j^2)-(E(y_j))^2 = n^2\pi_j^2 - n\pi_j^2 + n\pi_j - (n\pi_j)^2 = n\pi_j(1-\pi_j)$
+
+# iii)
+The moment generating function of $y_j \text{ and } y_i$ can be calculated by setting all other variable equal to zero such that
+\begin{align*}
+M_{y_i,y_j}(0, 0, \cdot\cdot\cdot, t_i, \cdot\cdot\cdot, t_j, \cdot\cdot\cdot, 0) &= (\pi_1e^{0} + \pi_2e^{0} + \cdot\cdot\cdot + \pi_ie^{t_i} + \cdot\cdot\cdot + \pi_je^{t_j} +\cdot\cdot\cdot + \pi_ke^{0})^n\\
+&= ((1-\pi_j -\pi_i) + \pi_ie^{t_i}+ \pi_je^{t_j})^n \qquad \text{(Since $\sum_{i=1}^{k} \pi_i = 1$)}\\
+\end{align*}
+
+Then,
+\begin{align*}
+E(y_iy_j) &= [\frac{\partial^2}{\partial t_i \partial t_j} M_{y_i, y_j}(t_i, t_j)]_{t_i = 0, t_j = 0} \\
+&= [\frac{\partial}{\partial t_i} n[(1-\pi_i-\pi_j) + \pi_ie^{t_i} +\pi_je^{t_j}]^{n-1}\pi_je^{t_j}]_{t_i = 0, t_j = 0}\\
+&= n(n-1)[(1-\pi_i - \pi_j) + \pi_ie^{t_i} + \pi_je^{t_j}]^{n-2}\pi_ie^{t_i}\pi_je^{t_j}|_{t_i = 0, t_j = 0}\\
+&= n(n-1)\pi_i\pi_j\\
+E(y_iy_j) &= n^2\pi_i\pi_j - n\pi_i\pi_j
+\end{align*}
+
+and, cov$(y_iy_j) = E(y_iy_j) - E(y_i)E(y_j) = n^2\pi_i\pi_j - n\pi_i\pi_j - (n\pi_i)(n\pi_j) = -n\pi_i\pi_j$
+
+# c)
+Cor$(Y_i,Y_j) = \frac{\text{Cov}(Y_i, Y_j)}{\sqrt{Var(Y_i)Var(Y_j)}} = \frac{-n\pi_i\pi_j}{\sqrt{n\pi_i(1-\pi_i)n\pi_j(1-\pi_j)}}=\frac{-\pi_i\pi_j}{\sqrt{\pi_i(1-\pi_i)\pi_j(1-\pi_j)}}$
+
+# d)
+If C=2, then $\pi_i + \pi_j = 1 \Rightarrow \pi_i = 1 - \pi_j \text{ and } \pi_j = 1 - \pi_i$.
+Hence,
+\begin{align*}
+\text{Cor}(Y_1,Y_2) &= \frac{\text{Cov}(Y_1, Y_2)}{\sqrt{Var(Y_1)Var(Y_2)}}\\
+&= \frac{-\pi_1\pi_2}{\sqrt{\pi_1(1-\pi_1)\pi_2(1-\pi_2)}} \\
+&= \frac{-\pi_1(1-\pi_1)}{\sqrt{\pi_1(1-\pi_1)(1-\pi_1)(1-(1-\pi_1))}} \\
+&= \frac{-\pi_1(1-\pi_1)}{\sqrt{\pi_1^2(1-\pi_1)^2}} \\
+\text{Cor}(Y_1,Y_2) &= -1
+\end{align*}
+
+## Question 2
+Let $Y_1$ and $Y_2$ be independent Poisson random variables with parameters $\mu_1$ and $\mu_2$, respectively. 
+\begin{align*}
+P(Y_1=k|Y_1+Y_2=n) &= \frac{P(Y_1 = k,Y_1+Y_2 = n)}{P(Y_1+Y_2 = n)}\\
+&= \frac{P(Y_1 = k)P(Y_1+Y_2 = n-k)}{P(Y_1+Y_2 = n)}\\
+&= \frac{\frac{\mu_1^k}{k!}e^{-\mu_1}\cdot\frac{(\mu_1+\mu_2)^{n-k}}{(n-k)!}e^{-(\mu_1+\mu_2)}}{\frac{(\mu_1+\mu_2)^n}{n!}e^{-(\mu_1+\mu_2)}}\\
+&= \frac{\mu_1^k(\mu_1+\mu_2)^{n-k}n!}{k!(n-k)!(\mu_1+\mu_2)^n}\\
+&= {n \choose k}(\frac{\mu_1}{\mu_1+\mu_2})^k(\frac{\mu_2}{\mu_1+\mu_2})^{n-k}
+\end{align*}
+
+
+## Question 3
+
+$$P(\hat{\pi} -z_{\frac{\alpha}{2}} \sqrt{\frac{\hat{\pi}(1-\hat{\pi})}{n}} \leq \pi \leq \hat{\pi} +z_{\frac{\alpha}{2}} \sqrt{\frac{\hat{\pi}(1-\hat{\pi})}{n}}) = 0.95 \qquad \text{is the Wald Confidence Interval}$$
+
+# a)
+$\hat{\pi} = \frac{27}{30} = 0.9\\$
+$z_{\frac{\alpha}{2}}=1.96\\$
+$n=30\\$
+Then the 95% Wald Confidence Interval is $(\hat{\pi} -z_{\frac{\alpha}{2}} \sqrt{\frac{\hat{\pi}(1-\hat{\pi})}{n}}, \hat{\pi} +z_{\frac{\alpha}{2}} \sqrt{\frac{\hat{\pi}(1-\hat{\pi})}{n}}) = (0.79264, 1.00735)$
+
+```{r}
+nprime <- 30 + (qnorm(1-0.05/2))^2
+w1 <- 30/nprime
+w2 <- ((qnorm(1-0.05/2))^2)/nprime
+midpoint <- 0.9*w1+0.5*w2
+
+L_score <- midpoint - qnorm(1-0.05/2)*sqrt((1/nprime)*(0.9*(1-0.9)*w1+0.25*w2))
+U_score <- midpoint + qnorm(1-0.05/2)*sqrt((1/nprime)*(0.9*(1-0.9)*w1+0.25*w2))
+
+L_score
+U_score
+```
+Therefore, the 95% Score Confidence Interval is $(0.74378, 0.96540)$
+
+
+# b)
+```{r}
+set.seed(1005411252) # set seed for productivity 
+N <- 100000
+pie <- 0.9 ## pi is already defined in R thus we use "pie"/ the probability
+n <- 15
+alph <- 0.05 # For 95% Confidence Interval
+y <- rbinom(N, n, pie) # Simulating 100,000 observation of Y
+pihat <- y/n
+
+
+## Wald Confidence Interval ##
+L.wald <- pihat - qnorm(1-alph/2)*sqrt((pihat*(1-pihat))/n)
+U.wald <- pihat + qnorm(1-alph/2)*sqrt((pihat*(1-pihat))/n)
+pi_in_wald_CI <- (pie > L.wald)*(pie < U.wald)
+observedConfLevel_WaldCI <- mean(pi_in_wald_CI)
+observedConfLevel_WaldCI
+
+## Score Confidence Interval ##
+nprime <- n + (qnorm(1-alph/2))^2
+w1 <- n/nprime
+w2 <- ((qnorm(1-alph/2))^2)/nprime
+midpoint <- pihat*w1+0.5*w2
+L.score <- midpoint - qnorm(1-alph/2)*sqrt((1/nprime)*(pihat*(1-pihat)*w1+0.25*w2))
+U.score <- midpoint + qnorm(1-alph/2)*sqrt((1/nprime)*(pihat*(1-pihat)*w1+0.25*w2))
+pi_in_score_CI <- (pie >  L.score)*(pie <  U.score)
+observedConfLevel_scoreCI <- mean(pi_in_score_CI)
+observedConfLevel_scoreCI
+```
+
+The proportion of the 95% Wald and Score confidence interval (with 100,000 observation and 0.9 probability of success of each trial) is 0.79122 and 0.9444, respectively.
+
+This value means that out of 100,000 simulated observations, 79.122% of the observation was within the 95% **Wald** confidence interval. A noted disadvantage for the Wald CI is that it perform poorly when the sample size is small. A sample size of 100,000 is not small but a larger sample size may lead to a proportion closer to 95%. But this proportion value would unlikely be above 95%. Therefore, having a 94% **score** CI is quite impressive. Hence, the score CI is more reliable. 
+
+
+## Question 4
+# a)
+The likelihood function for the binomial is $L(\pi) = \pi^{y}(1-\pi)^{n-y} = \pi^{27}(1-\pi)^{3}$
+
+The log-likelihood function for binomial is $log(L(\pi)) = log(\pi^{27}(1-\pi)^{3}) = 27log(\pi) +3log(1-\pi)$
+
+# b)
+```{r}
+par(mfrow = c(1,2)) # display two plots in the same screen/ together
+# defining likelihood as a function in R
+likelihood <- function(pi) { (pi^(27))*((1-pi)^3) }
+# optimizing likelihood
+opt.lik <- optimize(likelihood,
+                    interval=c(0, 1), maximum=TRUE)
+#plotting curve
+curve(likelihood, from=0, to=1, xlab=expression(pi), ylab=expression(L(
+  pi)))
+# plotting vertical line at maximum
+abline(v = opt.lik$maximum)
+
+## same thing with log-likelihood ##
+log_likelihood <- function(pi) { 27*log(pi) + 3*log(1-pi) }
+curve(log_likelihood,
+      from=0, to=1, xlab=expression(pi), ylab=expression(l(pi)))
+opt.log_lik <- optimize(log_likelihood,
+                        interval=c(0, 1), maximum=TRUE)
+abline(v = opt.log_lik$maximum)
+```
+$\\$The maximum likelihood estimate of $\pi$ is 0.899994
+```{r}
+opt.log_lik$maximum
+```
+
+# c)
+The likelihood ratio is given by $$\frac{L(\pi_0)}{L(\hat{\pi})}=(\frac{\pi_0}{\hat{\pi}})^y(\frac{1-\pi_0}{1-\hat{\pi}})^{n-y} =(\frac{\pi_0}{\hat{\pi}})^{27}(\frac{1-\pi_0}{1-\hat{\pi}})^{3} $$
+Then, the test statistic is given by $$-2log(\frac{L(\pi_0)}{L(\hat{\pi})})=2[27log(\frac{27}{27\cdot0.5})+(30-27)log(\frac{30-27}{30-30(0.5)})]= 12.06177 >\chi^2(0.05) = 3.84\\$$
+
+Since the test statistic (chi-square calculated value) is greater than the chi-square critical value, we can reject our null hypothesis at $\alpha = 0.05$
+
+# d)
+The likelihood-ratio confidence interval can be calculated by $$f(\pi_0)=2[27log(\frac{27}{30\cdot\pi_0})+(3)log(\frac{3}{3-(3\cdot\pi_0)})] \leq 3.84 = \chi^2(0.05)$$, Where the two roots would result in the confidence interval.
+```{r, out.width="75%"}
+#install.packages("rootSolve")
+library(rootSolve)
+n <- 30
+y <- 27
+phat <- y/n
+alpha <- 0.05
+f1 <- function(pi0) {
+  2*(y*log(y/(n*pi0)) + (n-y)*log((n-y)/(n-n*pi0))) - qchisq(1-alpha,df=1)
+}
+par(oma = c(1,1,0,1), bty = "n")
+curve(f1, from=0, to=1, xlab=expression(pi[0]),
+      ylab=expression(paste("-2log(" ) ~ Lambda ~ paste( ") - ") ~ chi[1]^2 ~
+                        paste( "(" ) ~ alpha ~ paste( ")" ) ))
+abline(h=0, col="red")
+abline(v = uniroot.all(f=f1, interval=c(0.000001,0.999999)))
+```
+$\\$They intersect at $\pi_0 = (0.7607957, 0.9741571)$. Hence this is the likelihood ratio confidence interval.
+```{r}
+f1 <- function(pi0) {
+  2*(y*log(y/(n*pi0)) + (n-y)*log((n-y)/(n-n*pi0))) - qchisq(1-alpha,df=1)
+}
+uniroot.all(f=f1, interval=c(0.000001,0.999999))
+```
+
+## Question 5
+```{r}
+set.seed(1005411252) # For productivity
+
+rm(list = ls())
+### Logistic Regression Simulation ##
+
+## Simulate the data ##
+n<-500 #Generating 500 random values
+X1<-runif(n,-10,10)  #X1 is a normal distribution from -10 to 10
+X2 <- rnorm(n, 0, 4) #X2 is a normal distribution with mean 0 and variance 4
+X3 <- rbinom(n, 1, 0.7) #X3 is a bernoulli distribution with probability 0.7
+
+Xmat <- cbind(rep(1,n), X1, X2, X3)
+b0 <- -0.8
+b1 <- 0.1
+b2 <- 0.2
+b3 <- 0.3
+eta0<-b0+b1*X1+b2*X2+b3*X3
+lambda = exp(eta0)
+Y <- rpois(n, lambda)
+```
+
+# a)
+Here we simulated $Y_i \sim Poisson(\mu_i)$, Where $\mu_i = exp(\sum_j x_{ij}\beta_j)$
+```{r}
+Y
+```
+
+# b)
+Since Y is a Poisson distribution,
+\begin{align*}
+f_Y(y;\lambda) &= \frac{e^{-\lambda}\lambda^y}{y!}\\
+&= exp\{ylog\lambda-\lambda-logy!\}\\
+&= exp\{y\theta-exp(\theta)-logy!\}
+\end{align*}
+$$b(\theta)=exp(\theta),\qquad b'(\theta)=exp(\theta)=\lambda, \qquad b''(\theta)=exp(\theta) = \lambda$$
+Iteratively Reweighted Least Squares (IRLS) algorithm:
+\begin{enumerate}
+\item Set all $\hat{\beta_j}^{(0)}=0$ for all j = 0, 1, 2, ..., q
+\item Calculate $\hat{\mu_i}^{(0)} = \hat{\lambda_i}^{(0)} =exp(\sum_jx_{ij}\beta_j)$
+\item $W^{(1)}=\text{diag}(exp(\lambda_1), exp(\lambda_2), ..., exp(\lambda_n))$.Here $\lambda_i = \lambda_i^{(0)}$
+\item For i = 1, 2,..., n, set $z_i^{(1)} = \sum_jx_{ij}\beta_j + (W^{(0)})^{-1}(y_i-\hat{\pi_i}^{(0)})$
+\item Estimate $\hat{\beta}^{(1)} = (X^TW^{(1)}X)^{-1}X^TW^{(1)}z^{(1)}$
+\item Repeat steps 2-5 to get $W^{(2)}, z_i^{(2)}, \hat{\beta}^{(2)}$
+\item Repeat 2-6 until $\hat{\pi}_i^{(t)}$ satisfy $|\hat{\pi}_i^{(t)}-\hat{\pi}_i^{(t-1)}|<\epsilon_\pi$
+\end{enumerate}
+
+```{r}
+## WE NOW CREATE A FUNCTION FOR IRLS ##
+glm.utsg <- function(Y, Xmat, tol = 1e-8){
+  #Initialization
+  beta <-rep(0, ncol(Xmat))
+  eta <- Xmat %*% beta
+  pivec <- exp(eta)
+  W <- diag(as.vector(exp(eta)))
+  Z <- eta + exp(-eta)*(Y-exp(eta))
+  eqns<-sum(t(Xmat) %*% (Y-pivec))
+  istep <- 0
+  
+  while(eqns^2 > tol){
+    beta<-solve(t(Xmat) %*% W %*% Xmat) %*% t(Xmat) %*% W %*% Z
+    eta <- Xmat %*% beta
+    pivec <- exp(eta)
+    W <- diag(as.vector(exp(eta)))
+    Z <- eta + exp(-eta)*(Y-exp(eta))
+    eqns<-sum(t(Xmat) %*% (Y-pivec))
+    istep <- istep +1
+  }
+  SE <- sqrt(diag(solve(t(Xmat) %*% W %*% Xmat)))
+  z = beta/SE
+  res.mat <- data.frame(Estimates = beta, OR = c(1, exp(beta)[-1]),
+                        SE = SE,
+                        z = z,
+                        p_value = ifelse(z < 0, 2*pnorm(z), 2*(1 - pnorm(z)))
+  )
+  rownames(res.mat)[1] <- "Intercept"
+  results <- list(Table = res.mat, Iteration = istep)
+  return(results)
+}
+
+## Now let's run the function and compare it to R's glm() ##
+glm.utsg(Y = Y, Xmat = Xmat)
+## Run the glm() code in R ##
+glm.p<-glm(Y ~ X1+X2+X3,family=poisson)
+summary(glm.p)
+```
+
+The W matrix is a diagonal matrix with diagonal elements $$w_{ii} = \frac{\lambda}{Var(Y_i)}$$
+
